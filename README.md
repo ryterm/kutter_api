@@ -22,4 +22,9 @@ join our IRC channel on irc.libera.chat: #ryterm
 
 ## License
 
-This entire project(both api and official clients) are under [AGPLv3 License](LICENSE)
+This entire project(both api and official clients) are under [AGPLv3 License](LICENSE.md)
+
+## Maintainers
+
+Aury Vaz <aury@ryterm.xyz>
+
