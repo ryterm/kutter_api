@@ -8,7 +8,6 @@ use serde::{Deserialize, Serialize};
 pub struct AccessClaim {
     pub sub: i32, // user ID
     pub username: String,
-    pub pub_key: [u8; 32],
     pub exp: usize,
 }
 
@@ -20,12 +19,11 @@ pub struct SessionClaim {
 }
 
 impl AccessClaim {
-    pub fn generate(id: i32, username: String, pub_key: [u8; 32]) -> String {
+    pub fn generate(id: i32, username: String) -> String {
         let secret = env::var("JWT_KEY").expect("JWT_KEY must be set");
         let claims = Self {
             sub: id,
             username: username,
-            pub_key: pub_key,
             exp: (Utc::now() + Duration::days(3)).timestamp() as usize,
         };
 

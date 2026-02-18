@@ -23,7 +23,7 @@ pub async fn validate_user(
             Ok(None) => return Err(HttpResponse::NotFound().body("User not found")),
             Err(_) => return Err(HttpResponse::InternalServerError().body("Error getting user")),
         };
-        let token = tokens::AccessClaim::generate(user.id, user.username, user.pub_key);
+        let token = tokens::AccessClaim::generate(user.id, user.username);
         let cookie = cookies::CookieGenerator::access_cookie(token);
         return Err(HttpResponse::Created().cookie(cookie).body("New cookie"));
     }

@@ -9,7 +9,6 @@ pub struct User {
     pub email: String,
     pub password: String,
     pub biography: Option<String>,
-    pub pub_key: [u8; 32],
     pub verified: bool,
     pub created_at: DateTime<Utc>,
 }

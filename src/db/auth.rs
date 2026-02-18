@@ -13,7 +13,6 @@ impl Auth {
                 username VARCHAR(30) NOT NULL UNIQUE,
                 email TEXT NOT NULL UNIQUE,
                 password VARCHAR(255) NOT NULL,
-                pub_key BYTEA NOT NULL UNIQUE,
                 verified BOOLEAN NOT NULL DEFAULT FALSE,
                 biography VARCHAR(200),
                 created_at TIMESTAMPTZ
@@ -29,21 +28,19 @@ impl Auth {
         username: String,
         email: String,
         password: String,
-        pub_key: [u8; 32],
         created_at: DateTime<Utc>,
     ) -> sqlx::Result<PgQueryResult> {
         let query = sqlx::query(
             "INSERT INTO users (
-                username, email, password, pub_key, created_at
+                username, email, password, created_at
             )
             VALUES (
-                $1, $2, $3, $4, $5
+                $1, $2, $3, $4
             )",
         )
         .bind(&username)
         .bind(&email)
         .bind(&password)
-        .bind(&pub_key)
         .bind(&created_at)
         .execute(pool)
         .await?;

@@ -1,9 +1,7 @@
 use actix_web::{HttpRequest, HttpResponse, web};
 use bcrypt::{DEFAULT_COST, hash, verify};
 use chrono::Utc;
-use rand::rngs::OsRng;
 use sqlx::PgPool;
-use x25519_dalek::{EphemeralSecret, PublicKey};
 
 use crate::{
     db::{auth::Auth, tokens::Tokens},
@@ -24,15 +22,12 @@ pub async fn register(pool: web::Data<PgPool>, body: web::Json<UserRegister>) ->
         }
     };
 
-    let tmp_secret = EphemeralSecret::random_from_rng(OsRng);
-    let pub_key = PublicKey::from(&tmp_secret).to_bytes();
     let created_at = Utc::now();
     match Auth::register(
         &pool,
         body.username.clone(),
         body.email.clone(),
         hashed_password,
-        pub_key,
         created_at,
     )
     .await
