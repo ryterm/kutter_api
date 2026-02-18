@@ -7,7 +7,7 @@ use crate::models::{channel::ChannelCreate, community::CommunityJoin, message::C
 pub enum IncomingMessage {
     ChannelSend(ChannelSend),
     ChannelCreate(ChannelCreate),
-    CommunityJoin(CommunityJoin)
+    CommunityJoin(CommunityJoin),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

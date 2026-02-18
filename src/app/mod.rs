@@ -19,7 +19,5 @@ pub fn routes(app: &mut web::ServiceConfig) {
                 web::resource("channel/message").route(web::get().to(websocket::messages_handler)),
             ),
     )
-    .service(
-        web::resource("/ws").route(web::get().to(websocket::messages_handler))
-    );
+    .service(web::resource("/ws").route(web::get().to(websocket::messages_handler)));
 }

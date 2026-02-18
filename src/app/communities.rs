@@ -8,7 +8,7 @@ use bcrypt::{DEFAULT_COST, hash};
 use crate::{
     db::{communities::Communities, invites::Invites, members::Members},
     models::community::{CreateCommunity, CreateInvite},
-    utils::{validate_user},
+    utils::validate_user,
 };
 
 pub async fn create_community(
@@ -28,4 +28,3 @@ pub async fn create_community(
         Err(e) => HttpResponse::InternalServerError().body(format!("{}", e)),
     }
 }
-

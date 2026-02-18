@@ -3,7 +3,9 @@ use actix_web::web;
 use crate::{
     db::{channels::Channels, members::Members, messages::Messages},
     models::{
-        actions::{IncomingMessage, OutgoingMessage}, channel::ChannelCreate, message::ChannelSend
+        actions::{IncomingMessage, OutgoingMessage},
+        channel::ChannelCreate,
+        message::ChannelSend,
     },
     utils::tokens::AccessClaim,
 };
@@ -11,7 +13,7 @@ use crate::{
 pub async fn channel_create(
     pool: &web::Data<sqlx::PgPool>,
     user: &AccessClaim,
-    data: &ChannelCreate
+    data: &ChannelCreate,
 ) -> OutgoingMessage {
     let community = match Members::get(&pool, &user.sub).await {
         Ok(member) => {
@@ -21,9 +23,7 @@ pub async fn channel_create(
             }
             communities
         }
-        Err(e) => {
-            return OutgoingMessage::Error(format!("{:?}", e))
-        }
+        Err(e) => return OutgoingMessage::Error(format!("{:?}", e)),
     };
     match community.contains(&data.community_id) {
         true => {
@@ -37,9 +37,9 @@ pub async fn channel_create(
             .await
             {
                 Ok(_) => OutgoingMessage::ChannelCreate(data.clone()),
-                Err(e) => OutgoingMessage::Error(format!("{}", e))
+                Err(e) => OutgoingMessage::Error(format!("{}", e)),
             }
         }
-        false => OutgoingMessage::Error(format!("Unauthorized"))
+        false => OutgoingMessage::Error(format!("Unauthorized")),
     }
 }

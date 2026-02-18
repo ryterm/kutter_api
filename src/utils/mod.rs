@@ -1,6 +1,6 @@
 pub mod cookies;
-pub mod tokens;
 pub mod invites;
+pub mod tokens;
 
 use actix_web::{HttpRequest, HttpResponse};
 use sqlx::PgPool;

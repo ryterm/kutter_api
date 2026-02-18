@@ -20,7 +20,7 @@ pub struct CreateCommunity {
 pub struct CommunityJoin {
     pub user_id: i32,
     pub community_id: i32,
-    pub admin: bool
+    pub admin: bool,
 }
 
 // idk if i'll rfeally use this

@@ -19,14 +19,19 @@ impl Invites {
         Ok(query)
     }
 
-    pub async fn create(pool: &PgPool, created_by: &i32, community_id: &i32, token: &String) -> sqlx::Result<PgQueryResult> {
+    pub async fn create(
+        pool: &PgPool,
+        created_by: &i32,
+        community_id: &i32,
+        token: &String,
+    ) -> sqlx::Result<PgQueryResult> {
         let query = sqlx::query(
             "INSERT INTO invites (
                 created_by, community, token
             )
             VALUES (
                 $1, $2, $3
-            )"
+            )",
         )
         .bind(&created_by)
         .bind(&community_id)
