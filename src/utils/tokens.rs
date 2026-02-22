@@ -1,4 +1,4 @@
-use std::env;
+use std::{env, string};
 
 use chrono::{Duration, Utc};
 use jsonwebtoken::{DecodingKey, EncodingKey, Header, Validation, decode, encode};
@@ -35,15 +35,15 @@ impl AccessClaim {
         .unwrap()
     }
 
-    pub fn verify(token: String) -> Self {
+    pub fn verify(token: String) -> Result<Self, String> {
         let secret = env::var("JWT_KEY").expect("JWT_KEY must be set");
-        decode::<Self>(
-            &token,
-            &DecodingKey::from_secret(secret.as_ref()),
-            &Validation::default(),
-        )
-        .unwrap()
-        .claims
+        match decode(&token, &DecodingKey::from_secret(secret.as_ref()), &Validation::default()) {
+            Ok(t) => Ok(t.claims),
+            Err(e) => {
+                println!("{:?}", e);
+                Err(String::from(format!("{}", e)))
+            }
+        }
     }
 }
 
@@ -63,14 +63,14 @@ impl SessionClaim {
         .unwrap()
     }
 
-    pub fn verify(token: String) -> Self {
+    pub fn verify(token: String) -> Result<Self, String> {
         let secret = env::var("JWT_KEY").expect("JWT_KEY must be set");
-        decode(
-            &token,
-            &DecodingKey::from_secret(secret.as_ref()),
-            &Validation::default(),
-        )
-        .unwrap()
-        .claims
+        match decode(&token, &DecodingKey::from_secret(secret.as_ref()), &Validation::default()) {
+            Ok(t) => Ok(t.claims),
+            Err(e) => {
+                println!("{:?}", e);
+                Err(String::from(format!("{}", e)))
+            }
+        }
     }
 }
