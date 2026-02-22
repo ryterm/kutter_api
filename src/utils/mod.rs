@@ -5,7 +5,7 @@ pub mod tokens;
 use actix_web::{HttpRequest, HttpResponse};
 use sqlx::PgPool;
 
-use crate::db::{auth::Auth};
+use crate::db::auth::Auth;
 
 pub async fn validate_user(
     req: &HttpRequest,
@@ -21,7 +21,9 @@ pub async fn validate_user(
             let user = match Auth::get_by_id(pool, session.sub).await {
                 Ok(Some(user)) => user,
                 Ok(None) => return Err(HttpResponse::NotFound().body("User not found")),
-                Err(_) => return Err(HttpResponse::InternalServerError().body("Error getting user")),
+                Err(_) => {
+                    return Err(HttpResponse::InternalServerError().body("Error getting user"));
+                }
             };
             let token = tokens::AccessClaim::generate(user.id, user.username);
             let cookie = cookies::CookieGenerator::access_cookie(token);

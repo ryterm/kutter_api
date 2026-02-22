@@ -37,7 +37,11 @@ impl AccessClaim {
 
     pub fn verify(token: String) -> Result<Self, String> {
         let secret = env::var("JWT_KEY").expect("JWT_KEY must be set");
-        match decode(&token, &DecodingKey::from_secret(secret.as_ref()), &Validation::default()) {
+        match decode(
+            &token,
+            &DecodingKey::from_secret(secret.as_ref()),
+            &Validation::default(),
+        ) {
             Ok(t) => Ok(t.claims),
             Err(e) => {
                 println!("{:?}", e);
@@ -65,7 +69,11 @@ impl SessionClaim {
 
     pub fn verify(token: String) -> Result<Self, String> {
         let secret = env::var("JWT_KEY").expect("JWT_KEY must be set");
-        match decode(&token, &DecodingKey::from_secret(secret.as_ref()), &Validation::default()) {
+        match decode(
+            &token,
+            &DecodingKey::from_secret(secret.as_ref()),
+            &Validation::default(),
+        ) {
             Ok(t) => Ok(t.claims),
             Err(e) => {
                 println!("{:?}", e);
